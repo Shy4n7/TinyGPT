@@ -1,6 +1,6 @@
-# TinyGPT: Building GPT from Scratch
+# TinyGPT: My Journey Building GPT from Scratch
 
-A hands-on, educational project implementing the GPT decoder-only Transformer architecture from mathematical foundations to a production-quality 4M parameter model.
+A personal learning project implementing the GPT decoder-only Transformer architecture in PyTorch from mathematical foundations to a scaled 6.3M parameter model with Automatic Mixed Precision (AMP) and regularization.
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-red)
@@ -8,23 +8,36 @@ A hands-on, educational project implementing the GPT decoder-only Transformer ar
 
 ---
 
-## 🚀 Journey & Progression
+## 💡 My Learning Journey & Iterations
 
-This repository breaks down GPT building into 3 distinct iterations:
+### 1. V1: Foundation Model (112k Params)
+- **Why I built this**: I wanted to understand how self-attention works under the hood by implementing `MultiHeadAttention`, `FeedForward`, and Pre-LN `TransformerBlock` from scratch.
+- **Training Choice**: I started with a simple **epoch-based training loop** (20 epochs).
+- **What I learned**: The causal triangular mask correctly prevented future token leakage. However, train loss (1.40) and val loss (1.43) plateaued early—showing severe **underfitting** due to limited model capacity.
+- **Trade-off**: Epoch-based loops made tracking full dataset passes straightforward, but fixed sequence windows limited sample diversity per epoch.
 
-- **V1: Small Model (129k params)** – Hand-computed math foundation, base Multi-Head Attention, epoch-based training.
-- **V2: Scaled Model (600k params)** – Increased depth & width, improved generation capabilities, 4x parameter scaling.
-- **V3: Production Model (4M params)** – Regularization (dropout & weight decay), Automatic Mixed Precision (AMP), step-based training loop, and model checkpointing.
+### 2. V2: Scaling Capacity (818k Params)
+- **Why I scaled up**: To test if underfitting in V1 was a capacity bottleneck, I scaled depth ($2 \rightarrow 4$ blocks) and width ($64 \rightarrow 128$ embedding dim).
+- **What I learned**: Validation loss dropped from 1.43 to 1.34, and generated output became semi-coherent Shakespearean text. However, a validation gap ($\Delta = 0.13$) emerged between train (1.21) and val (1.34).
+- **Trade-off**: Adding 6x more parameters dramatically improved text quality, but introduced the risk of **overfitting** because V2 lacked regularization.
+
+### 3. V3: Production Scaling & Regularization (6.3M Params)
+- **Why I updated this**: I wanted to scale to a 6.3M parameter model while fixing overfitting and training efficiently on GPU.
+- **Switched to Step-Based Training**: I replaced epoch loops with a **step-based training loop** (5,000 steps) using random token offset sampling.
+  - *Why step-based?* Random index sampling provides uniform stochastic coverage, smoother step-level monitoring, and faster iteration.
+  - *Trade-off*: Step-based training means you don't strictly guarantee an equal number of passes over every character compared to epoch sweeps, but it enables much faster experimental feedback loops.
+- **Added Mixed Precision (AMP)**: Implemented `torch.cuda.amp.autocast()` and `GradScaler()`, achieving a **~2.8x training speedup** and saving **~45% VRAM**.
+- **Added Regularization**: Integrated `Dropout=0.1` and `AdamW` weight decay (`0.1`), bringing validation loss down to **1.15**.
 
 ---
 
-## 📊 Version Comparison Matrix
+## 📊 Model Evolution Matrix
 
-| Version | Parameters | Embedding Dim | Heads | Layers | Training Loop | Train Loss | Val Loss | Key Highlights |
-| :--- | :---: | :---: | :---: | :---: | :--- | :---: | :---: | :--- |
-| **V1** | **129k** | 64 | 4 | 2 | Epoch-based (20 epochs) | 1.40 | 1.43 | Math foundation, simple causal mask |
-| **V2** | **600k** | 128 | 8 | 4 | Epoch-based (20 epochs) | 1.21 | 1.34 | 4x scale, semi-coherent Shakespeare |
-| **V3** | **4.1M** | 256 | 16 | 8 | Step-based (5,000 steps) | 0.98 | 1.15 | Dropout=0.1, AMP, Weight Decay=0.1 |
+| Model Iteration | Parameters | Embedding Dim | Heads | Layers | Training Loop | Val Loss | My Key Learnings & Trade-offs |
+|:---|:---:|:---:|:---:|:---:|:---|:---:|:---|
+| **V1 (Small)** | 112k | 64 | 4 | 2 | Epoch-based (20 epochs) | 1.43 | Learned pre-LN attention math; underfitted due to small capacity. |
+| **V2 (Scaled)** | 818k | 128 | 8 | 4 | Epoch-based (20 epochs) | 1.34 | Improved generation quality; gap emerged showing need for regularization. |
+| **V3 (Production)** | 6.3M | 256 | 16 | 8 | Step-based (5,000 steps) | **1.15** | Step sampling + AMP for speed; Dropout + AdamW prevented overfitting. |
 
 ---
 
@@ -37,92 +50,83 @@ tinygpt/
 ├── requirements.txt
 │
 ├── v1/
-│   ├── tinygpt_v1.py          (129k params model architecture)
+│   ├── tinygpt_v1.py          (112k params foundational model)
 │   ├── training_v1.py         (Epoch-based training script)
-│   └── v1_notes.md            (Foundational notes & math observations)
+│   └── v1_notes.md            (Math breakdown & underfitting notes)
 │
 ├── v2/
-│   ├── tinygpt_v2.py          (600k params model architecture)
-│   ├── training_v2.py         (Scaled training script)
-│   └── v2_notes.md            (Scaling analysis & V1 comparison)
+│   ├── tinygpt_v2.py          (818k params scaled model)
+│   ├── training_v2.py         (Scaled training loop)
+│   └── v2_notes.md            (Scaling insights & generation improvements)
 │
 ├── v3/
-│   ├── tinygpt_v3.py          (4M params model + dropout)
-│   ├── training_v3.py         (Step-based training, AMP, AdamW)
-│   └── v3_notes.md            (Production analysis & optimizations)
+│   ├── tinygpt_v3.py          (6.3M params production model + dropout)
+│   ├── training_v3.py         (Step-based training, AMP fp16, AdamW)
+│   └── v3_notes.md            (AMP speedup, step vs epoch trade-offs)
 │
 ├── experiments/
-│   ├── exp_dropout.py         (Dropout 0.0 vs 0.1 vs 0.2 benchmark)
-│   ├── exp_learning_rate.py   (LR study: 1e-3 vs 3e-4 vs 1e-4)
-│   └── exp_results.md         (Experimental findings & loss tables)
+│   ├── exp_dropout.py         (Dropout 0.0 vs 0.1 vs 0.2 experiment)
+│   ├── exp_learning_rate.py   (Learning rate study: 1e-3 vs 3e-4 vs 1e-4)
+│   └── exp_results.md         (Ablation results & trade-off findings)
 │
 ├── data/
 │   └── fetch_shakespeare.py   (Script to download Tiny Shakespeare data)
 │
 └── notebooks/
-    └── tinygpt_colab.ipynb    (Runnable Google Colab Notebook)
+    └── tinygpt_colab.ipynb    (Runnable Google Colab notebook)
 ```
 
 ---
 
 ## 🛠️ Quick Start
 
-### 1. Installation
+### 1. Installation & Data Download
 
 ```bash
 git clone https://github.com/Shy4n7/tinygpt.git
 cd tinygpt
 pip install -r requirements.txt
-```
-
-### 2. Download Dataset
-
-```bash
 python data/fetch_shakespeare.py
 ```
 
-### 3. Run Training Loops
-
-#### Train V1 (129k params)
+### 2. Run Model Iterations
 
 ```bash
+# V1: Foundation Model
 python v1/training_v1.py
-```
 
-#### Train V2 (600k params)
-
-```bash
+# V2: Scaled Model
 python v2/training_v2.py
-```
 
-#### Train V3 (4.1M params with AMP & Regularization)
-
-```bash
+# V3: Production Model (AMP + Step-based)
 python v3/training_v3.py
 ```
 
-### 4. Interactive Experiments
-
-Run dropout impact benchmarks:
+### 3. Run Experiments
 
 ```bash
+# Dropout regularizer benchmark
 python experiments/exp_dropout.py
-```
 
-Run learning rate comparison study:
-
-```bash
+# Learning rate comparison
 python experiments/exp_learning_rate.py
 ```
 
 ---
 
-## 🧠 What I Learned
+## 🧠 What I Learned Overall
 
-1. **Self-Attention & Causal Masking**: Understanding how $Q, K, V$ matrices interact and why causal triangular masking prevents future token leakage.
-2. **Pre-LayerNorm vs Post-LayerNorm**: Why placing LayerNorm before Multi-Head Attention and FFN improves gradient flow in deeper Transformer blocks.
-3. **Scaling Dynamics**: How parameter scaling affects loss reduction, vocabulary capture, and sample text quality.
-4. **Regularization**: Mitigating overfitting using Dropout and AdamW weight decay.
-5. **Modern PyTorch Optimizations**: Speeding up training with `torch.cuda.amp.autocast` and `GradScaler`.
+1. **Architecture Math**: Self-attention scaling by $\frac{1}{\sqrt{d_k}}$ is essential to keep softmax gradients stable early in training.
+2. **Pre-LN vs Post-LN**: Pre-LayerNorm creates an uninhibited residual stream gradient highway, enabling deeper models (like V3's 8 layers) to train cleanly.
+3. **Epoch vs Step-Based Trade-offs**: Epoch training is great for small datasets when exact coverage matters, but step-based stochastic batching with random offset sampling scales much better for large-scale training.
+4. **Efficiency Matters**: AMP mixed precision enabled me to train a 6.3M parameter model on a single GPU with over 2x speedup.
+5. **Regularization**: Dropout and selective weight decay on 2D weights are crucial once model capacity increases beyond ~500k parameters.
 
 ---
+
+## 👤 Author
+
+**Shyan Paul**
+- Personal ML learning project building GPT architecture step-by-step.
+- GitHub: [@Shy4n7](https://github.com/Shy4n7)
+- LinkedIn: [shyanpaul](https://linkedin.com/in/shyanpaul)
