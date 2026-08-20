@@ -1,0 +1,36 @@
+# Colab checkpoints & model weights
+*.pt
+*.pth
+*.ckpt
+
+# Data files
+data/*.txt
+*.txt
+!requirements.txt
+
+# Python cache & build outputs
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+
+# IDE / Editor configs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook artifacts
+.ipynb_checkpoints/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Execution Logs
+*.log
