@@ -1,4 +1,4 @@
-<img width="2103" height="748" alt="ChatGPT Image Aug 20, 2026, 05_33_50 PM" src="https://github.com/user-attachments/assets/da4b3e17-c8f3-4afe-b1f9-264743ed6595" />
+<img width="1774" height="887" alt="ChatGPT Image Aug 18, 2026, 06_13_08 PM-Photoroom" src="https://github.com/user-attachments/assets/e8ff2435-8eed-474f-8e3c-30364873c566" />
 
 
 ## Building GPT from Scratch
