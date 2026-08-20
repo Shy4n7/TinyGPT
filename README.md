@@ -124,11 +124,3 @@ python experiments/exp_learning_rate.py
 4. **Efficiency Matters**: AMP mixed precision enabled me to train a 6.3M parameter model on a single GPU with over 2x speedup.
 5. **Regularization**: Dropout and selective weight decay on 2D weights are crucial once model capacity increases beyond ~500k parameters.
 
----
-
-## Author
-
-**Shyan Paul**
-- Personal ML learning project building GPT architecture step-by-step.
-- GitHub: [@Shy4n7](https://github.com/Shy4n7)
-- LinkedIn: [shyanpaul](https://linkedin.com/in/shyanpaul)
