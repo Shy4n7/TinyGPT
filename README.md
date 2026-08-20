@@ -4,7 +4,7 @@
 
 ## Building GPT from Scratch
 
-A personal learning project implementing the GPT decoder-only Transformer architecture in PyTorch from mathematical foundations to a scaled 6.3M parameter model with Automatic Mixed Precision (AMP) and regularization.
+A personal learning project implementing the GPT decoder-only Transformer architecture in PyTorch from mathematical foundations to a scaled 6.3M parameter model
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-red)
