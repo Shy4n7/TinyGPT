@@ -47,6 +47,6 @@ allows direct gradient flow through the identity shortcut $x_l$, stabilizing opt
 
 ---
 
-## What We Learned
+## What I Learned
 - The 129k parameter model captures basic character frequencies and vowel/consonant alternating structures, but lacks context capacity to generate long-range coherent words or grammar.
 - Needs scaling up depth, width, and context length in V2.

@@ -117,7 +117,7 @@ python experiments/exp_learning_rate.py
 
 ---
 
-## 🧠 What You'll Learn
+## 🧠 What I Learned
 
 1. **Self-Attention & Causal Masking**: Understanding how $Q, K, V$ matrices interact and why causal triangular masking prevents future token leakage.
 2. **Pre-LayerNorm vs Post-LayerNorm**: Why placing LayerNorm before Multi-Head Attention and FFN improves gradient flow in deeper Transformer blocks.

@@ -46,7 +46,7 @@ And think'st thou of these fearful words.
 
 ---
 
-## Key Takeaways
+## What I Learned
 1. **Depth and Width Scaling**: Increasing layer depth from 2 to 4 allowed hierarchical feature composition (lower layers learn syntax/characters, upper layers capture semantic relations).
 2. **Emerging Overfitting / Need for Regularization**: Unlike V1 where train and val loss tracked identically, V2 begins showing a small validation gap ($\Delta = 0.13$). This hints that larger models require **dropout** and **weight decay** to generalize even better.
 3. **Training Dynamics**: V2 requires slightly more compute per step, but converges to significantly lower perplexity within 20 epochs.
