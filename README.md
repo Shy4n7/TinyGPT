@@ -12,6 +12,14 @@ A personal learning project implementing the GPT decoder-only Transformer archit
 
 ---
 
+## Read the Full Learning Journey
+
+I documented the complete journey of building TinyGPT from manually computing the mathematics behind attention to implementing, training, scaling, and evaluating multiple Transformer iterations.
+
+**[Building GPT from Scratch: A 5-Day Learning Journey](https://medium.com/@shyanpaul7/building-gpt-from-scratch-a-5-day-learning-journey-fcacd49fd959)**
+
+---
+
 ## My Learning Journey & Iterations
 
 ### 1. V1: Foundation Model (112k Params)
