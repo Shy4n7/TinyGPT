@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 class MultiHeadAttention(nn.Module):
     """
-    Causal Multi-Head Attention module with Dropout for Production TinyGPT (V3).
+    Causal Multi-Head Attention module with Dropout for TinyGPT V3.
     """
     def __init__(self, embedding_dim, num_heads, max_sequence_length, dropout=0.1):
         super().__init__()
@@ -70,7 +70,7 @@ class FeedForward(nn.Module):
 
 class TransformerBlock(nn.Module):
     """
-    Production Transformer Block with Pre-LayerNorm and Regularization.
+    Transformer Block with Pre-LayerNorm and Regularization.
     """
     def __init__(self, embedding_dim, num_heads, max_sequence_length, hidden_dim, dropout=0.1):
         super().__init__()
@@ -94,7 +94,7 @@ class TransformerBlock(nn.Module):
 
 class TinyGPT(nn.Module):
     """
-    Production TinyGPT V3 model (~4.1M parameters).
+    TinyGPT V3 model (~6.3M parameters).
     """
     def __init__(
         self, 

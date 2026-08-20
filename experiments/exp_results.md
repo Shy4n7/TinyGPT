@@ -4,7 +4,7 @@ This document details the experiments I ran to test regularization (dropout) and
 
 ---
 
-## 🧪 Experiment 1: Dropout Regularization (`exp_dropout.py`)
+## Experiment 1: Dropout Regularization (`exp_dropout.py`)
 
 I evaluated how different dropout rates $p \in \{0.0, 0.1, 0.2\}$ affected training loss, validation loss, and the generalization gap after 1,000 training steps.
 
@@ -21,7 +21,7 @@ I evaluated how different dropout rates $p \in \{0.0, 0.1, 0.2\}$ affected train
 
 ---
 
-## 🧪 Experiment 2: Learning Rate Tuning (`exp_learning_rate.py`)
+## Experiment 2: Learning Rate Tuning (`exp_learning_rate.py`)
 
 I compared learning rates $\eta \in \{1\times 10^{-3}, 3\times 10^{-4}, 1\times 10^{-4}\}$ using the AdamW optimizer.
 
@@ -38,7 +38,7 @@ I compared learning rates $\eta \in \{1\times 10^{-3}, 3\times 10^{-4}, 1\times 
 
 ---
 
-## 💡 Summary of My Final Design Choices
+## Summary of My Model Design Choices
 1. **AdamW + Selective Weight Decay (0.1)**: Applied weight decay exclusively to 2D matrix weights (embeddings, linear layers) to preserve LayerNorm dynamics.
 2. **Dropout = 0.1**: Applied across attention weights and projections to control overfitting.
 3. **Step-based Training + AMP**: Used 5,000 step random offset sampling with `torch.cuda.amp.autocast()` for faster iteration and GPU memory efficiency.

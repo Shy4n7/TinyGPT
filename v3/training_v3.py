@@ -7,7 +7,7 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from tinygpt_v3 import TinyGPT
 
-# Hyperparameters (Production V3 Config)
+# Hyperparameters (V3 Config)
 EMBEDDING_DIM = 256
 NUM_HEADS = 16
 NUM_BLOCKS = 8
@@ -110,7 +110,7 @@ def generate_sample(prompt="KING RICHARD:"):
     return out_text
 
 if __name__ == "__main__":
-    print(f"\n=== Training Production TinyGPT V3 ({TOTAL_STEPS:,} Steps with AMP) ===")
+    print(f"\n=== Training TinyGPT V3 ({TOTAL_STEPS:,} Steps with AMP) ===")
     best_val_loss = float('inf')
     start_time = time.time()
     

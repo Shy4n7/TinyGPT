@@ -1,7 +1,7 @@
-# V3: TinyGPT - Production Techniques & Trade-offs
+# V3: TinyGPT - Scaling & Regularization Experiments
 
 ## Why I Built V3
-After seeing V2 improve in quality but start to overfit, I designed V3 to scale up to a **6.3M parameter model** while solving two key challenges:
+After seeing V2 improve in quality but start to overfit, I wanted to scale up to a **6.3M parameter model** while tackling two key learning objectives:
 1. **Preventing Overfitting**: Using dropout and weight decay.
 2. **Improving Training Speed & Memory Efficiency**: Switching to step-based training and Automatic Mixed Precision (AMP).
 
@@ -41,7 +41,7 @@ After seeing V2 improve in quality but start to overfit, I designed V3 to scale 
 
 ## Evolution Summary Across Iterations
 
-| Feature / Metric | V1 (Small) | V2 (Scaled) | V3 (Production) |
+| Feature / Metric | V1 (Small) | V2 (Scaled) | V3 (Larger Model) |
 |:---|:---:|:---:|:---:|
 | **Parameters** | 112k | 818k | **6.3M** |
 | **Embedding Dim** | 64 | 128 | 256 |

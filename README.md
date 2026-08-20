@@ -8,7 +8,7 @@ A personal learning project implementing the GPT decoder-only Transformer archit
 
 ---
 
-## 💡 My Learning Journey & Iterations
+## My Learning Journey & Iterations
 
 ### 1. V1: Foundation Model (112k Params)
 - **Why I built this**: I wanted to understand how self-attention works under the hood by implementing `MultiHeadAttention`, `FeedForward`, and Pre-LN `TransformerBlock` from scratch.
@@ -21,8 +21,8 @@ A personal learning project implementing the GPT decoder-only Transformer archit
 - **What I learned**: Validation loss dropped from 1.43 to 1.34, and generated output became semi-coherent Shakespearean text. However, a validation gap ($\Delta = 0.13$) emerged between train (1.21) and val (1.34).
 - **Trade-off**: Adding 6x more parameters dramatically improved text quality, but introduced the risk of **overfitting** because V2 lacked regularization.
 
-### 3. V3: Production Scaling & Regularization (6.3M Params)
-- **Why I updated this**: I wanted to scale to a 6.3M parameter model while fixing overfitting and training efficiently on GPU.
+### 3. V3: Larger Model with AMP & Regularization (6.3M Params)
+- **Why I updated this**: As part of my ongoing learning, I wanted to experiment with a larger 6.3M parameter model while adding regularization and training efficiently on GPU.
 - **Switched to Step-Based Training**: I replaced epoch loops with a **step-based training loop** (5,000 steps) using random token offset sampling.
   - *Why step-based?* Random index sampling provides uniform stochastic coverage, smoother step-level monitoring, and faster iteration.
   - *Trade-off*: Step-based training means you don't strictly guarantee an equal number of passes over every character compared to epoch sweeps, but it enables much faster experimental feedback loops.
@@ -31,17 +31,17 @@ A personal learning project implementing the GPT decoder-only Transformer archit
 
 ---
 
-## 📊 Model Evolution Matrix
+## Model Evolution Matrix
 
 | Model Iteration | Parameters | Embedding Dim | Heads | Layers | Training Loop | Val Loss | My Key Learnings & Trade-offs |
 |:---|:---:|:---:|:---:|:---:|:---|:---:|:---|
 | **V1 (Small)** | 112k | 64 | 4 | 2 | Epoch-based (20 epochs) | 1.43 | Learned pre-LN attention math; underfitted due to small capacity. |
 | **V2 (Scaled)** | 818k | 128 | 8 | 4 | Epoch-based (20 epochs) | 1.34 | Improved generation quality; gap emerged showing need for regularization. |
-| **V3 (Production)** | 6.3M | 256 | 16 | 8 | Step-based (5,000 steps) | **1.15** | Step sampling + AMP for speed; Dropout + AdamW prevented overfitting. |
+| **V3 (Larger)** | 6.3M | 256 | 16 | 8 | Step-based (5,000 steps) | **1.15** | Step sampling + AMP for speed; Dropout + AdamW prevented overfitting. |
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```
 tinygpt/
@@ -60,7 +60,7 @@ tinygpt/
 │   └── v2_notes.md            (Scaling insights & generation improvements)
 │
 ├── v3/
-│   ├── tinygpt_v3.py          (6.3M params production model + dropout)
+│   ├── tinygpt_v3.py          (6.3M params model with dropout & AMP)
 │   ├── training_v3.py         (Step-based training, AMP fp16, AdamW)
 │   └── v3_notes.md            (AMP speedup, step vs epoch trade-offs)
 │
@@ -78,7 +78,7 @@ tinygpt/
 
 ---
 
-## 🛠️ Quick Start
+## Quick Start
 
 ### 1. Installation & Data Download
 
@@ -98,7 +98,7 @@ python v1/training_v1.py
 # V2: Scaled Model
 python v2/training_v2.py
 
-# V3: Production Model (AMP + Step-based)
+# V3: Larger Model (AMP + Step-based)
 python v3/training_v3.py
 ```
 
@@ -114,7 +114,7 @@ python experiments/exp_learning_rate.py
 
 ---
 
-## 🧠 What I Learned Overall
+## What I Learned Overall
 
 1. **Architecture Math**: Self-attention scaling by $\frac{1}{\sqrt{d_k}}$ is essential to keep softmax gradients stable early in training.
 2. **Pre-LN vs Post-LN**: Pre-LayerNorm creates an uninhibited residual stream gradient highway, enabling deeper models (like V3's 8 layers) to train cleanly.
@@ -124,7 +124,7 @@ python experiments/exp_learning_rate.py
 
 ---
 
-## 👤 Author
+## Author
 
 **Shyan Paul**
 - Personal ML learning project building GPT architecture step-by-step.
