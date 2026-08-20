@@ -1,4 +1,5 @@
-![Uploading ChatGPT Image Aug 18, 2026, 06_13_08 PM.png…]()
+<img width="1774" height="887" alt="ChatGPT Image Aug 18, 2026, 06_13_08 PM" src="https://github.com/user-attachments/assets/17671c62-0dac-4d03-a113-bc713f809082" />
+
 
 
 # TinyGPT: My Journey Building GPT from Scratch
